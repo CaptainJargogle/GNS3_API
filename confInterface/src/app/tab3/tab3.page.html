@@ -11,7 +11,7 @@
     <ion-card-header>
       <img src="/assets/img/admin2.jpg" height="250px;" />
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content >
       <p>View the configuration of your Network remotly from here.</p>
     </ion-card-content>
   </ion-card>
@@ -29,7 +29,8 @@
       <ion-input type="password" [(ngModel)]="this.ssh.pass"></ion-input>
     </ion-item>
   </ion-card>
-  <ion-card>
+ 
+  <ion-card color="light">
 
     <ion-item color="dark">
       <ion-label> Get Configurations </ion-label>
@@ -39,6 +40,7 @@
       <ion-label position="stacked">Host</ion-label>
       <ion-input type="text" [(ngModel)]="this.ssh.confHost"></ion-input>
     </ion-item>
+    <div [hidden]="this.ssh.clear">
     <ion-row>
       <ion-col></ion-col>
       <ion-col>
@@ -46,8 +48,8 @@
       </ion-col>
       <ion-col></ion-col>
     </ion-row>
-  </ion-card>
-  <ion-card-content>
+  </div>
+  <ion-card-content  >
    <div [innerHTML]="this.ssh.configuration"></div>         
       
         
@@ -61,8 +63,9 @@
         </ion-row>
       </div>
       
-   
+    
     </ion-card-content>
+  </ion-card>
 
 
 
