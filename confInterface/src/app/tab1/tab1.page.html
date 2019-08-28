@@ -1,0 +1,322 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Switches
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="background">
+
+  <ion-card color="dark">
+    <ion-card-header>
+      <img src="/assets/img/admin2.jpg" height="250px;" />
+    </ion-card-header>
+    <ion-card-content>
+      <p>Configure the Switches of your Network remotly from here.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+
+
+    <ion-item>
+      <ion-label position="stacked">Username</ion-label>
+      <ion-input [(ngModel)]="this.ssh.user"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Password</ion-label>
+      <ion-input type="password" [(ngModel)]="this.ssh.pass"></ion-input>
+    </ion-item>
+  </ion-card>
+
+
+  <!-- Configuration starts here!! -->
+
+  <ion-radio-group [(ngModel)]="radioValue" (ionChange)="showValue()">
+
+    <!-- DHCP SERVER -->
+    <ion-card>
+
+      <ion-item color="dark">
+        <ion-label> DHCP Server </ion-label>
+        <ion-radio slot="end" value="dhcp" color="light"></ion-radio>
+      </ion-item>
+
+      <div [hidden]=(!dhcp)>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="stacked">Host IP</ion-label>
+            <ion-input [(ngModel)]="this.ssh.hostDHCP"></ion-input>
+          </ion-item>
+
+
+
+          <ion-item>
+            <ion-label position="stacked">DHCP Pool Name</ion-label>
+            <ion-input type="text" [(ngModel)]="this.ssh.pool"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Network</ion-label>
+            <ion-input type="text" [(ngModel)]="this.ssh.dhcp_network"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Mask</ion-label>
+            <ion-input type="text" [(ngModel)]="this.ssh.dhcp_mask"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Default Router</ion-label>
+            <ion-input type="text" [(ngModel)]="this.ssh.dhcp_router"></ion-input>
+          </ion-item>
+
+
+          <ion-item>
+            <ion-list>
+
+              <ion-item *ngFor="let add of this.ssh.dhcp_addresses">{{add}}</ion-item>
+            </ion-list>
+            <ion-label position="stacked" required>Exculded Addresses</ion-label>
+            <ion-input type="text" placeholder="Excluded IP Addresses" [(ngModel)]="this.ssh.excluded"></ion-input>
+          </ion-item>
+
+
+          <ion-button expand="full" color="medium" (click)="  AddExcluded()">Add Excluded IP Address</ion-button>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <ion-button fill="solid" (click)="configureDHCP()">Configure DHCP Server</ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+
+    <!-- ROUTING -->
+    <ion-card>
+
+      <ion-item color="dark">
+        <ion-label> Routing </ion-label>
+        <ion-radio slot="end" value="routing" color="light"></ion-radio>
+      </ion-item>
+
+      <div [hidden]=(!routing)>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="stacked">Host IP</ion-label>
+            <ion-input [(ngModel)]="this.ssh.host"></ion-input>
+          </ion-item>
+
+
+          <ion-item>
+            <ion-label>Interface: </ion-label>
+            <ion-label color="primary"> {{ this.ssh.interface }}</ion-label>
+            <ion-button slot="end" size="default" (click)="showBasicPicker()">Select</ion-button>
+
+
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" required>IP adress of Interface</ion-label>
+            <ion-input type="text" [(ngModel)]="this.ssh.int_ip"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" required>Mask of Interface</ion-label>
+            <ion-input type="text" [(ngModel)]="this.ssh.int_mask"></ion-input>
+          </ion-item>
+
+
+          <ion-item>
+            <ion-list>
+
+              <ion-item *ngFor="let add of this.ssh.addresses">{{add}}</ion-item>
+            </ion-list>
+            <ion-label position="stacked" required>IP of Neighbours</ion-label>
+            <ion-input type="text" placeholder="Neighbouring Networks" [(ngModel)]="this.ssh.ipAdd"></ion-input>
+          </ion-item>
+
+
+          <ion-button expand="full" color="medium" (click)="  AddNetwork()">Add Network</ion-button>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <ion-button fill="solid" (click)="configureRouting()">Configure Routing</ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+
+
+
+    <!-- CREATE VLAN -->
+    <ion-card>
+
+      <ion-item color="dark">
+        <ion-label> Create VLANs </ion-label>
+        <ion-radio color="light" slot="end" value="create"></ion-radio>
+      </ion-item>
+      <div [hidden]=(!create)>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="stacked" required>Select the number of VLANs you want to create</ion-label>
+            <ion-input type="number" min="0" max="4096" [(ngModel)]="this.ssh.num"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-list>
+
+              <ion-item *ngFor="let host of this.ssh.hosts">{{host}}</ion-item>
+            </ion-list>
+            <ion-label position="stacked" required>IP of Hosts</ion-label>
+            <ion-input type="text" placeholder="Host Address" [(ngModel)]="this.ssh.hostIp"></ion-input>
+          </ion-item>
+
+
+          <ion-button expand="full" color="medium" (click)="AddHost()">Add Host</ion-button>
+
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <ion-button fill="solid" (click)="createVlan()">Create VLANs</ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+
+    <!-- CONFIGURE VLAN -->
+    <ion-card>
+      <ion-item color="dark">
+        <ion-label>Configure VLANs</ion-label>
+        <ion-radio color="light" slot="end" value="configure"></ion-radio>
+      </ion-item>
+      <div [hidden]=(!configure)>
+        <ion-card-content>
+
+          <ion-item>
+            <ion-label position="stacked">Host IP</ion-label>
+            <ion-input [(ngModel)]="this.ssh.hostn"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" required>Name of the VLAN to configure</ion-label>
+            <ion-input type="number" min="0" max="4096" [(ngModel)]="this.ssh.vlan"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" required>IP adress of VLAN</ion-label>
+            <ion-input type="text" [(ngModel)]="this.ssh.vlan_ip"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked" required>Mask of VLAN</ion-label>
+            <ion-input type="text" [(ngModel)]="this.ssh.vlan_mask"></ion-input>
+          </ion-item>
+          <ion-row>
+            <ion-col></ion-col>
+            <ion-col>
+              <ion-button fill="solid" (click)="configureVlan()">Configure</ion-button>
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+    <!-- CONFIGURE SWITCHPORTS -->
+    <ion-card>
+      <ion-item color="dark">
+        <ion-label>Configure Switchports</ion-label>
+        <ion-radio color="light" slot="end" value="port"></ion-radio>
+      </ion-item>
+      <div [hidden]=(!port)>
+        <ion-card-content>
+
+          <ion-item>
+            <ion-label position="stacked">Host IP</ion-label>
+            <ion-input [(ngModel)]="this.ssh.hostP"></ion-input>
+          </ion-item>
+          <ion-list>
+            <ion-item *ngFor="let entry of this.ssh.ports">
+              <ion-label>{{entry.val}}</ion-label>
+              <ion-checkbox slot="end" [(ngModel)]="entry.isChecked"></ion-checkbox>
+            </ion-item>
+          </ion-list>
+          <ion-radio-group [(ngModel)]="radioValue2" (ionChange)="showValue2()">
+            <ion-item color="dark">
+              <ion-label> Configure Trunk ports </ion-label>
+              <ion-radio color="light" slot="end" value="trunk"></ion-radio>
+            </ion-item>
+            <div [hidden]=(!trunk)>
+              <ion-card-content>
+                <ion-item>
+                  <ion-list>
+
+                    <ion-item *ngFor="let v of this.ssh.allowed">{{v}}</ion-item>
+                  </ion-list>
+                  <ion-label position="stacked" required>VLAN name</ion-label>
+                  <ion-input type="text" placeholder="Allowed VLANs on Trunk" [(ngModel)]="this.ssh.allow"></ion-input>
+                </ion-item>
+
+
+                <ion-button expand="full" color="medium" (click)="AddVlansAllowed()">Add Allowed VLANs</ion-button>
+
+
+                <ion-row>
+                  <ion-col></ion-col>
+                  <ion-col>
+                    <ion-button fill="solid" (click)="configurePorts()">Configure Trunk Ports</ion-button>
+                  </ion-col>
+                  <ion-col></ion-col>
+                </ion-row>
+              </ion-card-content>
+            </div>
+
+            <ion-item color="dark">
+              <ion-label> Configure Access ports </ion-label>
+              <ion-radio color="light" slot="end" value="access"></ion-radio>
+            </ion-item>
+            <div [hidden]=(!access)>
+              <ion-card-content>
+
+                <ion-item>
+                  <ion-label position="stacked">VLAN to access</ion-label>
+                  <ion-input [(ngModel)]="this.ssh.access_vlan"></ion-input>
+                </ion-item>
+                <ion-row>
+                  <ion-col></ion-col>
+                  <ion-col>
+                    <ion-button fill="solid" (click)="configurePorts()">Configure Access Ports</ion-button>
+                  </ion-col>
+                  <ion-col></ion-col>
+                </ion-row>
+              </ion-card-content>
+            </div>
+
+
+
+
+          </ion-radio-group>
+
+
+
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+
+
+  </ion-radio-group>
+
+
+
+
+
+
+</ion-content>

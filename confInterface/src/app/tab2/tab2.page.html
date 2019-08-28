@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Routers
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="background">
+
+  <ion-card color="dark">
+    <ion-card-header>
+      <img src="/assets/img/admin2.jpg" height="250px;" />
+    </ion-card-header>
+    <ion-card-content>
+      <p>Configure the Routers of your Network remotly from here.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-item>
+      <ion-label position="stacked">Username</ion-label>
+      <ion-input [(ngModel)]="this.ssh.user"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Password</ion-label>
+      <ion-input type="password" [(ngModel)]="this.ssh.pass"></ion-input>
+    </ion-item>
+
+    <ion-radio-group [(ngModel)]="radio" (ionChange)="showValue()">
+
+      <!-- Configure interfaces -->
+      <ion-card>
+
+        <ion-item color="dark">
+          <ion-label> Configure Interfaces </ion-label>
+          <ion-radio slot="end" value="interface" color="light"></ion-radio>
+        </ion-item>
+
+        <div [hidden]=(!interface)>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="stacked">Host IP</ion-label>
+              <ion-input [(ngModel)]="this.ssh.hostRInt"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Interface: </ion-label>
+              <ion-label color="primary">{{ this.ssh.Rinterface }}</ion-label>
+              <ion-button slot="end" size="default" (click)="showBasicPicker()">Select</ion-button>
+
+
+            </ion-item>
+
+
+
+            <ion-item>
+              <ion-label position="stacked">IP Address</ion-label>
+              <ion-input type="text" [(ngModel)]="this.ssh.r_ip"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Mask</ion-label>
+              <ion-input type="text" [(ngModel)]="this.ssh.r_mask"></ion-input>
+            </ion-item>
+
+
+
+            <ion-row>
+              <ion-col></ion-col>
+              <ion-col>
+                <ion-button fill="solid" (click)="configureInt()">Configure Interface</ion-button>
+              </ion-col>
+              <ion-col></ion-col>
+            </ion-row>
+          </ion-card-content>
+        </div>
+      </ion-card>
+
+
+      <!-- Routing -->
+
+      <ion-card>
+
+        <ion-item color="dark">
+          <ion-label> Routing </ion-label>
+          <ion-radio slot="end" value="routing" color="light"></ion-radio>
+        </ion-item>
+
+        <div [hidden]=(!routing)>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="stacked">Host IP</ion-label>
+              <ion-input [(ngModel)]="this.ssh.hostR"></ion-input>
+            </ion-item>
+
+                 
+
+
+            <ion-item>
+              <ion-list>
+
+                <ion-item *ngFor="let add of this.ssh.neighbors">{{add}}</ion-item>
+              </ion-list>
+              <ion-label position="stacked" required>IP of Neighbours</ion-label>
+              <ion-input type="text" placeholder="Neighbouring Networks" [(ngModel)]="this.ssh.neighbor"></ion-input>
+            </ion-item>
+
+
+            <ion-button expand="full" color="medium" (click)="AddNeighbors()">Add Network</ion-button>
+            <ion-row>
+              <ion-col></ion-col>
+              <ion-col>
+                <ion-button fill="solid" (click)="configureRouter()">Configure Routing</ion-button>
+              </ion-col>
+              <ion-col></ion-col>
+            </ion-row>
+          </ion-card-content>
+        </div>
+      </ion-card>
+
+
+
+
+
+
+    </ion-radio-group>
+
+
+
+  </ion-card>
+
+</ion-content>

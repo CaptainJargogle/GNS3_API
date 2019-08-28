@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Tab Three
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background">
+  <ion-card color="dark">
+    <ion-card-header>
+      <img src="/assets/img/admin2.jpg" height="250px;" />
+    </ion-card-header>
+    <ion-card-content>
+      <p>Configure the Switches of your Network remotly from here.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+
+
+    <ion-item>
+      <ion-label position="stacked">Username</ion-label>
+      <ion-input [(ngModel)]="this.ssh.user"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Password</ion-label>
+      <ion-input type="password" [(ngModel)]="this.ssh.pass"></ion-input>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+
+    <ion-item color="dark">
+      <ion-label> Get Configurations </ion-label>
+      
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Host</ion-label>
+      <ion-input type="text" [(ngModel)]="this.ssh.confHost"></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col></ion-col>
+      <ion-col>
+        <ion-button fill="solid" (click)="getConfig()">Get Configuration</ion-button>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+  </ion-card>
+  <ion-card-content>
+   <div [innerHTML]="this.ssh.configuration"></div>         
+      
+        
+        <div [hidden]="!this.ssh.clear">
+        <ion-row>
+          <ion-col></ion-col>
+          <ion-col>
+            <ion-button fill="solid" (click)="clearTab()">Clear</ion-button>
+          </ion-col>
+          <ion-col></ion-col>
+        </ion-row>
+      </div>
+      
+   
+    </ion-card-content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ion-content>
